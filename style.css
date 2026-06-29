@@ -1,11 +1,13 @@
-/* Базові налаштування колірної гами */
+/* ==========================================================================
+   1. БАЗОВІ НАЛАШТУВАННЯ ТА КОЛЬОРОВА ГАМА
+   ========================================================================== */
 :root {
-    --bg-color: #fcfbfa;
-    --card-bg: #ffffff;
-    --text-main: #2b2b2b;
-    --accent-wood: #b5895a;
-    --dark-grey: #4a4a4a;
-    --overlay: rgba(0, 0, 0, 0.9);
+    --bg-color: #fcfbfa;       /* М'який біло-кремовий фон сайту */
+    --card-bg: #ffffff;        /* Білий фон для карток */
+    --text-main: #2b2b2b;      /* Глибокий графітовий для тексту */
+    --accent-wood: #b5895a;    /* Теплий деревний/золотий акцент */
+    --dark-grey: #4a4a4a;      /* Сірий для другорядних елементів */
+    --overlay: rgba(0, 0, 0, 0.9); /* Темний фон для повного екрана фото */
 }
 
 body {
@@ -14,12 +16,11 @@ body {
     color: var(--text-main);
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
+*, *:before, *:after {
+    box-sizing: inherit;
 }
 
 header {
@@ -46,21 +47,65 @@ header {
     cursor: pointer;
     border-radius: 4px;
     transition: 0.3s;
+    font-weight: 500;
 }
-.back-btn:hover { background: var(--accent-wood); }
+.back-btn:hover { 
+    background: var(--accent-wood); 
+}
 
-/* Головна Карусель */
+/* ==========================================================================
+   2. ДВОКОЛОНКОВА СТРУКТУРА (ГОЛОВНА СТОРІНКА)
+   ========================================================================== */
+
+/* На великих екранах (ПК та планшети) ділимо екран на дві частини */
+@media (min-width: 992px) {
+    main.container {
+        display: grid;
+        grid-template-columns: 450px 1fr; /* Ліва колонка — 450px, права — все інше */
+        gap: 40px;
+        align-items: start;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 40px 20px;
+    }
+
+    /* Банер стає вертикальним і фіксується при скролі (ефект прилипання) */
+    .hero-carousel {
+        position: sticky;
+        top: 40px;
+        height: 650px; 
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+}
+
+/* На мобільних екранах усе будується стандартно в один стовпчик */
+@media (max-width: 991px) {
+    main.container {
+        max-width: 100%;
+        padding: 20px;
+    }
+    .hero-carousel {
+        height: 320px;
+        margin-bottom: 30px;
+    }
+}
+
+/* ==========================================================================
+   3. СТИЛІ КАРУСЕЛІ (БАНЕРА)
+   ========================================================================== */
 .hero-carousel {
     position: relative;
-    height: 600px;
     overflow: hidden;
     background: #eee;
 }
+
 .carousel-track {
     width: 100%;
     height: 100%;
     position: relative;
 }
+
 .slide {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
@@ -69,84 +114,188 @@ header {
     opacity: 0;
     transition: opacity 0.8s ease-in-out;
 }
-.slide.active { opacity: 1; }
+.slide.active { 
+    opacity: 1; 
+}
+
 .carousel-btn {
     position: absolute;
     top: 50%; transform: translateY(-50%);
     background: rgba(0,0,0,0.4);
-    color: white; border: none; padding: 15px;
-    cursor: pointer; font-size: 18px;
+    color: white; border: none; padding: 12px;
+    cursor: pointer; font-size: 16px;
+    border-radius: 50%;
+    width: 40px; height: 40px;
+    display: flex; align-items: center; justify-content: center;
+    transition: 0.3s;
+}
+.carousel-btn:hover {
+    background: var(--accent-wood);
 }
 .carousel-btn.prev { left: 10px; }
 .carousel-btn.next { right: 10px; }
 
-/* Сітка Категорій */
+/* ==========================================================================
+   4. СІТКА КАТЕГОРІЙ ТА КАРТКИ
+   ========================================================================== */
 .section-title {
-    text-align: center;
-    margin: 40px 0 20px;
+    margin-top: 0;
+    margin-bottom: 25px;
     color: var(--dark-grey);
+    font-size: 28px;
 }
+
+/* Сама сітка з категоріями товарів */
 .categories-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 20px;
 }
+
 .category-card {
     background: var(--card-bg);
-    border-left: 4px solid var(--accent-wood);
-    padding: 20px;
-    border-radius: 6px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    border: 1px solid #eef0f2;
+    border-top: 4px solid var(--accent-wood); /* Елегантна лінія зверху картки */
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    transition: transform 0.3s, box-shadow 0.3s;
 }
-.category-card h3 { margin-top: 0; color: var(--accent-wood); }
-.category-card ul { list-style: none; padding: 0; margin: 0; }
-.category-card ul li { margin: 10px 0; }
-.category-card a { color: var(--text-main); text-decoration: none; font-weight: 500; }
-.category-card a:hover { color: var(--accent-wood); }
-.single-link { display: flex; align-items: center; }
-.single-link a { font-size: 18px; width: 100%; }
 
-/* Сторінка товарів */
+.category-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+}
+
+.category-card h3 { 
+    margin-top: 0; 
+    color: var(--text-main); 
+    font-size: 20px; 
+    margin-bottom: 15px;
+}
+
+.category-card ul { 
+    list-style: none; 
+    padding: 0; 
+    margin: 0; 
+}
+
+.category-card ul li { 
+    margin: 12px 0; 
+}
+
+.category-card a { 
+    color: var(--dark-grey); 
+    text-decoration: none; 
+    font-weight: 500; 
+    transition: 0.2s;
+}
+
+.category-card a:hover { 
+    color: var(--accent-wood); 
+}
+
+/* Для категорій без підрозділів (поодинокі посилання) */
+.single-link { 
+    display: flex; 
+    align-items: center; 
+    min-height: 90px;
+}
+.single-link a { 
+    font-size: 18px; 
+    width: 100%; 
+    color: var(--text-main); 
+    font-weight: 600;
+}
+
+/* ==========================================================================
+   5. СТОРІНКА ВНУТРІШНІХ ТОВАРІВ (category.html)
+   ========================================================================== */
 .products-list {
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 35px;
     margin-top: 30px;
 }
+
 .product-item {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 30px;
     background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+    border: 1px solid #f0f0f0;
 }
+
 @media (max-width: 768px) {
-    .product-item { grid-template-columns: 1fr; }
+    .product-item { 
+        grid-template-columns: 1fr; /* На мобілках фото стає над описом */
+        gap: 20px;
+    }
 }
+
+.product-img-wrapper {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fcfcfc;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
 .product-img-wrapper img {
     width: 100%;
     height: auto;
-    border-radius: 6px;
+    max-height: 400px;
+    object-fit: cover;
     cursor: zoom-in;
-    transition: transform 0.3s;
+    transition: transform 0.3s ease;
 }
-.product-img-wrapper img:hover { transform: scale(1.02); }
-.product-info h3 { margin-top: 0; }
-.model-number { color: var(--accent-wood); }
 
-/* Модальне вікно (Лайтбокс) */
+.product-img-wrapper img:hover { 
+    transform: scale(1.02); 
+}
+
+.product-info h3 { 
+    margin-top: 0; 
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+.model-number { 
+    color: var(--accent-wood); 
+}
+
+.product-info p {
+    margin: 10px 0;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.product-info .description {
+    margin-top: 15px;
+    color: var(--dark-grey);
+    border-top: 1px solid #f0f0f0;
+    padding-top: 15px;
+}
+
+/* ==========================================================================
+   6. ПОВНОЕКРАННИЙ ПЕРЕГЛЯД (ЛАЙТБОКС)
+   ========================================================================== */
 .lightbox {
     position: fixed;
-    z-index: 1000;
+    z-index: 2000;
     top: 0; left: 0; width: 100%; height: 100%;
     background: var(--overlay);
     display: none;
     justify-content: center;
     align-items: center;
-    touch-action: none; /* Вимикає стандартні скроли браузера при свайпах */
+    touch-action: none; /* Блокує зайві скроли браузера при свайпах пальцем */
 }
+
 .lightbox-content {
     max-width: 90%;
     max-height: 85%;
@@ -155,23 +304,54 @@ header {
     align-items: center;
     overflow: hidden;
 }
+
 .lightbox img {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
-    transition: transform 0.2s ease;
+    transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     user-select: none;
+    cursor: zoom-out;
 }
+
+/* Кнопка закриття (Хрестик) */
 .close-lightbox {
     position: absolute;
     top: 20px; right: 25px;
-    color: #fff; font-size: 40px; cursor: pointer;
+    color: #fff; 
+    font-size: 45px; 
+    cursor: pointer;
+    line-height: 1;
+    transition: 0.2s;
+    user-select: none;
 }
+.close-lightbox:hover {
+    color: var(--accent-wood);
+}
+
+/* Стрілочки перегортання у лайтбоксі */
 .lightbox-arrow {
     position: absolute;
     top: 50%; transform: translateY(-50%);
-    background: none; border: none; color: white;
-    font-size: 35px; cursor: pointer; padding: 20px;
+    background: none; 
+    border: none; 
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 40px; 
+    cursor: pointer; 
+    padding: 20px;
+    transition: 0.2s;
+    user-select: none;
+}
+.lightbox-arrow:hover {
+    color: #fff;
+    scale: 1.1;
 }
 .arrow-left { left: 10px; }
 .arrow-right { right: 10px; }
+
+/* Приховуємо бічні стрілочки на смартфонах, бо там керування йде свайпами */
+@media (max-width: 768px) {
+    .lightbox-arrow {
+        display: none;
+    }
+}
