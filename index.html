@@ -3,69 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Каталог Меблів</title>
+    <title>Каталог Меблів — Головна</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <header>
-        <div class="logo">MEBLI Catalog</div>
-    </header>
-
-    <main class="container">
+    <div class="site-wrapper">
         
-        <section class="hero-carousel">
-            <div class="carousel-track">
-                <div class="slide active" style="background-image: url('karysel/Kyxha-karysel.png');"></div>
-                <div class="slide" style="background-image: url('karysel/Lishko-karysel.png');"></div>
-                <div class="slide" style="background-image: url('karysel/Shafa-karysel.png');"></div>
-            </div>
-            <button class="carousel-btn prev">&#10094;</button>
-            <button class="carousel-btn next">&#10095;</button>
-        </section>
-
-        <div class="catalog-content">
-            <h2 class="section-title">Категорії товарів</h2>
-            
-            <div class="categories-grid">
+        <!-- ЛІВА КОЛОНКА: ФІКСОВАНИЙ САЙДБАР (Як на Vinida) -->
+        <aside class="sidebar">
+            <div class="sidebar-sticky">
+                <div class="logo">MEBLI Catalog</div>
+                <p class="sidebar-desc">Сучасні меблі для вашого затишку</p>
                 
-                <div class="category-card">
-                    <h3>Комоди</h3>
+                <!-- Вертикальне меню навігації -->
+                <nav class="sidebar-menu">
                     <ul>
-                        <li><a href="category.html?type=komody-vsi">Всі комоди</a></li>
-                        <li><a href="category.html?type=komody-dveri">Комоди з дверцятами</a></li>
+                        <li><a href="#cat-section">🏠 Всі категорії</a></li>
+                        <li><a href="category.html?type=komody-vsi">🗄️ Комоди</a></li>
+                        <li><a href="category.html?type=shafy-standart"> Wardrobe Шафи</a></li>
+                        <li><a href="category.html?type=kuhni-vsi">🍳 Кухні</a></li>
+                        <li><a href="category.html?type=lizhka">🛏️ Ліжка</a></li>
+                        <li><a href="category.html?type=stoly">🪑 Столи</a></li>
                     </ul>
+                </nav>
+
+                <div class="sidebar-footer">
+                    <p>📞 +38 (097) 123-45-67</p>
+                    <p>📍 Наше виробництво</p>
                 </div>
-
-                <div class="category-card">
-                    <h3>Шафи</h3>
-                    <ul>
-                        <li><a href="category.html?type=shafy-standart">Звичайні шафи</a></li>
-                        <li><a href="category.html?type=shafy-kupe">Шафи-купе</a></li>
-                    </ul>
-                </div>
-
-                <div class="category-card">
-                    <h3>Кухні</h3>
-                    <ul>
-                        <li><a href="category.html?type=kuhni-vsi">Кухні</a></li>
-                        <li><a href="category.html?type=kuhni-tumby">Кухонні тумби</a></li>
-                    </ul>
-                </div>
-
-                <div class="category-card single-link"><a href="category.html?type=lizhka">Ліжка</a></div>
-                <div class="category-card single-link"><a href="category.html?type=stoly">Столи</a></div>
-                <div class="category-card single-link"><a href="category.html?type=pryhozhi">Прихожі</a></div>
-                <div class="category-card single-link"><a href="category.html?type=vishalky">Вішалки</a></div>
-                <div class="category-card single-link"><a href="category.html?type=obuvnyci">Обувниці</a></div>
-                <div class="category-card single-link"><a href="category.html?type=polyci">Полиці</a></div>
-                <div class="category-card single-link"><a href="category.html?type=tumby-tv">Тумби TV</a></div>
-                <div class="category-card single-link"><a href="category.html?type=rizne">Різне</a></div>
-
             </div>
-        </div>
+        </aside>
 
-    </main>
+        <!-- ПРАВА КОЛОНКА: ОСНОВНИЙ КОНТЕНТ (Банери + Картки) -->
+        <main class="main-content">
+            
+            <!-- Великий горизонтальний банер-карусель зверху -->
+            <section class="hero-carousel">
+                <div class="carousel-track">
+                    <div class="slide active" style="background-image: url('karysel/Kyxha-karysel.png');"></div>
+                    <div class="slide" style="background-image: url('karysel/Lishko-karysel.png');"></div>
+                    <div class="slide" style="background-image: url('karysel/Shafa-karysel.png');"></div>
+                </div>
+                <button class="carousel-btn prev">&#10094;</button>
+                <button class="carousel-btn next">&#10095;</button>
+            </section>
+
+            <!-- Блок із картками категорій -->
+            <section class="catalog-section" id="cat-section">
+                <h2 class="section-title">Каталог продукції</h2>
+                
+                <div class="categories-grid">
+                    
+                    <!-- Комоди -->
+                    <div class="category-card">
+                        <h3>Комоди</h3>
+                        <ul>
+                            <li><a href="category.html?type=komody-vsi">Всі комоди</a></li>
+                            <li><a href="category.html?type=komody-dveri">Комоди з дверцятами</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Шафи -->
+                    <div class="category-card">
+                        <h3>Шафи</h3>
+                        <ul>
+                            <li><a href="category.html?type=shafy-standart">Звичайні шафи</a></li>
+                            <li><a href="category.html?type=shafy-kupe">Шафи-купе</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Кухні -->
+                    <div class="category-card">
+                        <h3>Кухні</h3>
+                        <ul>
+                            <li><a href="category.html?type=kuhni-vsi">Кухні</a></li>
+                            <li><a href="category.html?type=kuhni-tumby">Кухонні тумби</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Прості категорії -->
+                    <div class="category-card single-link"><a href="category.html?type=lizhka">Ліжка</a></div>
+                    <div class="category-card single-link"><a href="category.html?type=stoly">Столи</a></div>
+                    <div class="category-card single-link"><a href="category.html?type=pryhozhi">Прихожі</a></div>
+                    <div class="category-card single-link"><a href="category.html?type=vishalky">Вішалки</a></div>
+                    <div class="category-card single-link"><a href="category.html?type=obuvnyci">Обувниці</a></div>
+                    <div class="category-card single-link"><a href="category.html?type=polyci">Полиці</a></div>
+                    <div class="category-card single-link"><a href="category.html?type=tumby-tv">Тумби TV</a></div>
+                    <div class="category-card single-link"><a href="category.html?type=rizne">Різне</a></div>
+
+                </div>
+            </section>
+        </main>
+
+    </div>
 
     <script src="script.js"></script>
 </body>
