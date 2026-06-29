@@ -52,7 +52,7 @@ header {
 /* Головна Карусель */
 .hero-carousel {
     position: relative;
-    height: 400px;
+    height: 600px;
     overflow: hidden;
     background: #eee;
 }
