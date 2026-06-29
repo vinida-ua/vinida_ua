@@ -180,3 +180,28 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
+// Розгортання категорій при натисканні (Акордеон)
+document.addEventListener("DOMContentLoaded", function() {
+    const menuRows = document.querySelectorAll(".menu-item .menu-row");
+
+    menuRows.forEach(row => {
+        row.addEventListener("click", function() {
+            const parentItem = this.parentElement;
+            const isActive = parentItem.classList.contains("active");
+            const indicator = this.querySelector(".menu-plus, .menu-arrow");
+
+            document.querySelectorAll(".menu-item").forEach(item => {
+                item.classList.remove("active");
+                const itemPlus = item.querySelector(".menu-plus");
+                if (itemPlus) itemPlus.textContent = "+";
+            });
+
+            if (!isActive) {
+                parentItem.classList.add("active");
+                if (indicator && indicator.classList.contains("menu-plus")) {
+                    indicator.textContent = "−";
+                }
+            }
+        });
+    });
+});
