@@ -429,4 +429,49 @@ body {
         padding: 20px !important;
     }
 
-    /* 3. ХЕДЕР СТОРІНКИ ТОВАРІВ НА МОБ
+    /* 3. ХЕДЕР СТОРІНКИ ТОВАРІВ НА МОБІЛЬНОМУ (category.html) */
+    .category-header {
+        padding: 15px 20px !important;
+        display: flex !important;
+        flex-direction: row !important; /* Строго в один рядок */
+        justify-content: space-between !important;
+        align-items: center !important;
+        gap: 10px !important;
+    }
+
+    /* Зменшуємо текст категорії, щоб він гарантовано влазив */
+    .category-header h1 {
+        font-size: 20px !important; 
+        white-space: nowrap !important; 
+        overflow: hidden !important;
+        text-overflow: ellipsis !important; 
+    }
+
+    /* Компактна кнопка повернення */
+    .back-btn {
+        padding: 8px 14px !important; 
+        font-size: 12px !important; 
+        white-space: nowrap !important; 
+        border-radius: 5px !important;
+        margin-bottom: 0 !important;
+    }
+
+    /* Картки товарів на мобільному */
+    .product-item {
+        grid-template-columns: 1fr !important; /* Фото вгорі, текст внизу */
+        gap: 15px !important;
+        padding: 15px !important;
+    }
+
+    .product-img-wrapper img {
+        max-height: 280px !important;
+    }
+
+    .product-info h3 {
+        font-size: 18px !important;
+    }
+
+    .product-info p {
+        font-size: 14px !important;
+    }
+}
