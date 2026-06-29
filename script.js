@@ -37,8 +37,32 @@ document.addEventListener("DOMContentLoaded", () => {
         'rizne': 'Різне'
     };
 
-    // --- 3. РУЧНЕ НАЛАШТУВАННЯ ФОТО ТА ДАНИХ (ПО 10 ТОВАРІВ) ---
-    const productsData = {};
+    document.addEventListener("DOMContentLoaded", function() {
+    const container = document.getElementById("products-container");
+    if (!container) return;
+
+    // ВКАЖИ ТУТ КІЛЬКІСТЬ ФОТОГРАФІЙ У ПАПЦІ
+    const totalPhotos = 22; 
+    const folderName = "Shafu"; // Назва твоєї папки з великої літери
+
+    // Цикл, який автоматично створює картки для кожного фото
+    for (let i = 1; i <= totalPhotos; i++) {
+        // Додаємо нуль попереду для чисел від 1 до 9 (щоб вийшло 01, 02... 10)
+        const photoNumber = i < 10 ? "0" + i : i; 
+        
+        // Створюємо HTML-структуру картки (тільки фото, без тексту, як ми домовлялися)
+        const productItem = document.createElement("div");
+        productItem.classList.add("product-item");
+
+        productItem.innerHTML = `
+            <div class="product-img-wrapper">
+                <img src="images/${folderName}/${photoNumber}.png" alt="Фото ${photoNumber}">
+            </div>
+        `;
+
+        container.appendChild(productItem);
+    }
+});
 
     // Функція-помічник для швидкого заповнення масиву товарів
     function generateCategoryProducts(catKey, prefix, imgPrefix, extension = 'jpg') {
