@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Перегляд товарів</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <button class="back-btn" onclick="window.location.href='index.html'">&#8592; На головну</button>
+    </header>
+
+    <main class="container">
+        <h2 id="category-title" class="section-title">Завантаження категорії...</h2>
+        
+        <div class="products-list">
+            <div class="product-item">
+                <div class="product-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1595428774223-ef52624120d2?q=80&w=600" alt="Товар" class="gallery-trigger" data-index="0">
+                </div>
+                <div class="product-info">
+                    <h3>Модель: <span class="model-number">№ 001</span></h3>
+                    <p><strong>Розмір:</strong> 1200 х 850 х 450 мм</p>
+                    <p><strong>Колір:</strong> Дуб сонома / Графіт</p>
+                    <p class="description">Сучасний та місткий варіант для вашої оселі. Оснащений якісною фурнітурою плавного закриття.</p>
+                </div>
+            </div>
+            
+            </div>
+    </main>
+
+    <div class="lightbox" id="lightbox">
+        <span class="close-lightbox">&times;</span>
+        <button class="lightbox-arrow arrow-left">&#10094;</button>
+        
+        <div class="lightbox-content">
+            <img src="" id="lightbox-img" alt="Збільшене фото">
+        </div>
+        
+        <button class="lightbox-arrow arrow-right">&#10095;</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
