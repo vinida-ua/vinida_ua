@@ -16,12 +16,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (nextBtn) nextBtn.addEventListener("click", () => showSlide(currentSlide + 1));
-        if (prevBtn) prevBtn.addEventListener("click", () => showSlide(currentSlide - -1));
+        if (prevBtn) prevBtn.addEventListener("click", () => showSlide(currentSlide - 1));
         
         setInterval(() => showSlide(currentSlide + 1), 5000);
     }
 
-   // ==========================================================================
+    // ==========================================================================
     // 2. СЛОВНИК НАЗВ КАТЕГОРІЙ (Для відповідності заголовків на сторінці товарів)
     // ==========================================================================
     const categoryNames = {
@@ -42,12 +42,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ==========================================================================
     // 3. КОНФІГУРАТОР АВТОМАТИЧНИХ ФОТОГАЛЕРЕЙ
-    //    Сюди вписуєш назву папки, кількість фото та розширення файлів (.png чи .jpg)
     // ==========================================================================
     const categoryConfig = {
         'shafy': { folder: 'Shafu', total: 22, ext: 'png' },
-        
-        // Для активації нових папок просто замінюй total: 0 на реальну кількість фото:
         'komody-vsi': { folder: 'Komody_Zbychayni', total: 0, ext: 'png' },
         'komody-dveri': { folder: 'Komody_Dveri', total: 0, ext: 'png' },
         'kuhni-vsi': { folder: 'Kuhni', total: 0, ext: 'png' },
@@ -61,6 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
         'kuhni-tumby': { folder: 'Kuhni_Tumby', total: 0, ext: 'png' },
         'rizne': { folder: 'Rizne', total: 0, ext: 'png' }
     };
+
     // ==========================================================================
     // 4. АВТОМАТИЧНЕ ВИВЕДЕННЯ ЧИСТИХ ФОТОГРАФІЙ (category.html)
     // ==========================================================================
@@ -68,24 +66,24 @@ document.addEventListener("DOMContentLoaded", () => {
     const containerEl = document.getElementById("products-container");
 
     if (titleEl && containerEl) {
-        // Отримуємо поточний тип категорії з посилання URL
+        // ОТУТ БУЛА ПОМИЛКА: Змінено 'shafy-standart' на 'shafy' за замовчуванням
         const urlParams = new URLSearchParams(window.location.search);
-        const currentCat = urlParams.get('type') || 'shafy-standart';
+        const currentCat = urlParams.get('type') || 'shafy';
 
-        // Ставимо назву у заголовок сторінки
+        // Ставимо назву меблів у заголовок
         titleEl.textContent = categoryNames[currentCat] || "Каталог меблів";
 
-        // Беремо налаштування фото для цієї категорії (якщо немає — ставимо порожньо)
+        // Беремо налаштування картинок
         const config = categoryConfig[currentCat];
 
-        if (config) {
-            // Цикл створення фото-карток
+        if (config && config.total > 0) {
+            containerEl.innerHTML = ""; // Повністю очищуємо контейнер
+            
+            // Цикл автоматичного створення карток
             for (let i = 1; i <= config.total; i++) {
-                // Додаємо нуль для чисел 1-9 (01, 02... 10)
                 const photoNumber = i < 10 ? "0" + i : i;
                 const imgSrc = `images/${config.folder}/${photoNumber}.${config.ext}`;
 
-                // Генеруємо HTML картки (Тільки чисте фото + класи для роботи Лайтбоксу)
                 const productHTML = `
                     <div class="product-item">
                         <div class="product-img-wrapper">
@@ -100,8 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 containerEl.insertAdjacentHTML('beforeend', productHTML);
             }
         } else {
-            // Якщо для категорії ще не створена папка конфігурації
-            containerEl.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #888; padding: 40px 0;">Галерея фотографій оновлюється...</p>`;
+            containerEl.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #888; padding: 40px 0; font-weight: 500;">Галерея фотографій оновлюється...</p>`;
         }
     }
 
@@ -192,8 +189,10 @@ document.addEventListener("DOMContentLoaded", function() {
     menuRows.forEach(row => {
         row.addEventListener("click", function() {
             const parentItem = this.parentElement;
+            if (parentItem.querySelector(".menu-single")) return;
+
             const isActive = parentItem.classList.contains("active");
-            const indicator = this.querySelector(".menu-plus, .menu-arrow");
+            const indicator = this.querySelector(".menu-plus");
 
             document.querySelectorAll(".menu-item").forEach(item => {
                 item.classList.remove("active");
@@ -203,9 +202,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             if (!isActive) {
                 parentItem.classList.add("active");
-                if (indicator && indicator.classList.contains("menu-plus")) {
-                    indicator.textContent = "−";
-                }
+                if (indicator) indicator.textContent = "−";
             }
         });
     });
