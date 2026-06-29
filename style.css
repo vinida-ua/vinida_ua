@@ -356,7 +356,7 @@ body {
     }
 
     .header-subtitle {
-        display: none !important; /* Ховаємо довгий опис, щоб не перевантажувати екран */
+        display: none !important; /* Ховаємо опис на мобілках */
     }
 
     .tg-btn {
@@ -369,20 +369,21 @@ body {
 
     /* 2. СТРУКТУРА ГОЛОВНОЇ СТОРІНКИ ТА ПОВЕРНЕННЯ КАРУСЕЛІ */
     .home-container {
-        grid-template-columns: 1fr !important; /* В одну колонку */
+        grid-template-columns: 1fr !important; 
         padding: 15px !important;
-        gap: 15px !important;
+        gap: 20px !important;
         display: flex !important;
         flex-direction: column !important;
+        align-items: center !important;
     }
 
-    /* Відновлюємо та показуємо карусель */
+    /* Банер зверху каталогу */
     .hero-carousel {
         display: block !important;
         width: 100% !important;
-        height: 250px !important; /* Оптимальна мобільна висота */
+        height: 250px !important; 
         position: relative !important;
-        order: -1; /* Банер стає першим зверху, каталог — під ним */
+        order: -1; 
     }
 
     .carousel-track {
@@ -398,7 +399,7 @@ body {
         background-position: center !important;
     }
 
-    /* Текст всередині слайдів на мобільному */
+    /* Текст всередині слайдів */
     .carousel-caption {
         bottom: 10px !important;
         left: 10px !important;
@@ -425,21 +426,23 @@ body {
     .carousel-btn.prev { left: 10px !important; }
     .carousel-btn.next { right: 10px !important; }
 
+    /* РОЗТЯГУЄМО БЛОК КАТАЛОГУ НА ВСЮ ШИРИНУ НА ТЕЛЕФОНІ */
     .catalog-sidebar {
         padding: 20px !important;
+        width: 100% !important; /* Тепер каталог займає 100% ширини екрана */
+        display: block !important;
     }
 
     /* 3. ХЕДЕР СТОРІНКИ ТОВАРІВ НА МОБІЛЬНОМУ (category.html) */
     .category-header {
         padding: 15px 20px !important;
         display: flex !important;
-        flex-direction: row !important; /* Строго в один рядок */
+        flex-direction: row !important; 
         justify-content: space-between !important;
         align-items: center !important;
         gap: 10px !important;
     }
 
-    /* Зменшуємо текст категорії, щоб він гарантовано влазив */
     .category-header h1 {
         font-size: 20px !important; 
         white-space: nowrap !important; 
@@ -447,7 +450,6 @@ body {
         text-overflow: ellipsis !important; 
     }
 
-    /* Компактна кнопка повернення */
     .back-btn {
         padding: 8px 14px !important; 
         font-size: 12px !important; 
@@ -456,9 +458,9 @@ body {
         margin-bottom: 0 !important;
     }
 
-    /* Картки товарів на мобільному */
+    /* Картки товарів */
     .product-item {
-        grid-template-columns: 1fr !important; /* Фото вгорі, текст внизу */
+        grid-template-columns: 1fr !important; 
         gap: 15px !important;
         padding: 15px !important;
     }
