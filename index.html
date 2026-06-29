@@ -3,26 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Каталог Меблів</title>
+    <title>MEBLI Catalog — Головна</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <header>
-        <div class="logo">MEBLI Catalog</div>
+    <header class="main-header">
+        <div class="header-left">
+            <div class="main-logo">Vinida</div>
+            <p class="header-subtitle">Меблі на замовлення • Шафи • Кухні • Комоди • Ліжка</p>
+        </div>
+        <a href="https://t.me/your_telegram" target="_blank" class="tg-btn">Написати в Telegram</a>
     </header>
 
-    <div class="vinida-container">
+    <main class="home-container">
         
-        <div class="vinida-banner" style="background-image: url('karysel/Kyxha-karysel.png');"></div>
+        <section class="hero-carousel">
+            <div class="carousel-track">
+                <div class="slide active" style="background-image: url('karysel/Kyxha-karysel.png');"></div>
+                <div class="slide" style="background-image: url('karysel/Lishko-karysel.png');"></div>
+                <div class="slide" style="background-image: url('karysel/Shafa-karysel.png');"></div>
+            </div>
+            
+            <button class="carousel-btn prev">&#10094;</button>
+            <button class="carousel-btn next">&#10095;</button>
+            
+            <div class="carousel-caption">
+                <h3>Каталог готових варіантів</h3>
+                <p>Переглядай фото, обирай модель і пиши для уточнення деталей.</p>
+            </div>
+        </section>
 
-        <div class="vinida-menu-wrapper">
-            <h2 class="menu-title">Каталог меблів</h2>
+        <aside class="catalog-sidebar">
+            <h2 class="sidebar-title">Каталог</h2>
             
             <div class="vinida-menu">
-                
                 <div class="menu-item">
-                    <span class="menu-parent">Комоди</span>
+                    <div class="menu-row">
+                        <span class="menu-parent">Комоди</span>
+                        <span class="menu-arrow">&#10142;</span>
+                    </div>
                     <div class="menu-sub">
                         <a href="category.html?type=komody-vsi">Всі комоди</a>
                         <a href="category.html?type=komody-dveri">Комоди з дверцятами</a>
@@ -30,7 +50,10 @@
                 </div>
 
                 <div class="menu-item">
-                    <span class="menu-parent">Шафи</span>
+                    <div class="menu-row">
+                        <span class="menu-parent">Шафи</span>
+                        <span class="menu-arrow">&#10142;</span>
+                    </div>
                     <div class="menu-sub">
                         <a href="category.html?type=shafy-standart">Звичайні шафи</a>
                         <a href="category.html?type=shafy-kupe">Шафи-купе</a>
@@ -38,26 +61,45 @@
                 </div>
 
                 <div class="menu-item">
-                    <span class="menu-parent">Кухні</span>
+                    <div class="menu-row">
+                        <span class="menu-parent">Кухні</span>
+                        <span class="menu-plus">+</span>
+                    </div>
                     <div class="menu-sub">
                         <a href="category.html?type=kuhni-vsi">Кухні</a>
                         <a href="category.html?type=kuhni-tumby">Кухонні тумби</a>
                     </div>
                 </div>
 
-                <div class="menu-item"><a href="category.html?type=lizhka" class="menu-single">Ліжка</a></div>
-                <div class="menu-item"><a href="category.html?type=stoly" class="menu-single">Столи</a></div>
-                <div class="menu-item"><a href="category.html?type=pryhozhi" class="menu-single">Прихожі</a></div>
                 <div class="menu-item"><a href="category.html?type=vishalky" class="menu-single">Вішалки</a></div>
                 <div class="menu-item"><a href="category.html?type=obuvnyci" class="menu-single">Обувниці</a></div>
+                <div class="menu-item"><a href="category.html?type=pryhozhi" class="menu-single">Прихожі</a></div>
+                <div class="menu-item">
+                    <div class="menu-row">
+                        <span class="menu-parent">Столи</span>
+                        <span class="menu-plus">+</span>
+                    </div>
+                    <div class="menu-sub">
+                        <a href="category.html?type=stoly">Всі столи</a>
+                    </div>
+                </div>
                 <div class="menu-item"><a href="category.html?type=polyci" class="menu-single">Полиці</a></div>
+                <div class="menu-item">
+                    <div class="menu-row">
+                        <span class="menu-parent">Ліжка</span>
+                        <span class="menu-plus">+</span>
+                    </div>
+                    <div class="menu-sub">
+                        <a href="category.html?type=lizhka">Всі ліжка</a>
+                    </div>
+                </div>
                 <div class="menu-item"><a href="category.html?type=tumby-tv" class="menu-single">Тумби TV</a></div>
                 <div class="menu-item"><a href="category.html?type=rizne" class="menu-single">Різне</a></div>
-
             </div>
-        </div>
+        </aside>
 
-    </div>
+    </main>
 
+    <script src="script.js"></script>
 </body>
 </html>
