@@ -343,12 +343,46 @@ body {
 .arrow-left { left: 10px; } .arrow-right { right: 10px; }
 
 /* ==========================================================================
-   АДАПТИВНІСТЬ ДЛЯ МОБІЛОК
+   АДАПТИВНІСТЬ ДЛЯ СМАРТФОНІВ (Мобільна версія)
    ========================================================================== */
-@media (max-width: 991px) {
-    .home-container { grid-template-columns: 1fr; padding: 15px; gap: 20px; }
-    .hero-carousel { height: 350px; }
-    .main-header { flex-direction: column; gap: 15px; text-align: center; padding: 20px; }
-    .product-item { grid-template-columns: 1fr; gap: 20px; padding: 20px; }
-    .lightbox-arrow { display: none; }
+@media (max-width: 768px) {
+    /* Хедер сторінки товарів на мобільному */
+    .category-header {
+        padding: 20px 15px 15px 15px; /* Менші відступи на телефонах */
+        display: flex;
+        justify-content: space-between;
+        align-items: center; /* Вирівнюємо строго по центру по вертикалі */
+        gap: 10px;
+    }
+
+    /* Зменшуємо назву категорії, щоб вона гарантовано влазила в один рядок */
+    .category-header h1 {
+        font-size: 20px; /* Сумпактний розмір для екрана смартфона */
+        white-space: nowrap; /* Забороняємо перенос на другий рядок */
+        overflow: hidden;
+        text-overflow: ellipsis; /* Якщо назва надто довга, вона акуратно обріжеться крапками */
+    }
+
+    /* Компактна кнопка "На головну" для мобільних */
+    .back-btn {
+        padding: 8px 14px; /* Менші внутрішні відступи */
+        font-size: 12px; /* Менший шрифт */
+        white-space: nowrap; /* Щоб текст у кнопці завжди був в один рядок */
+        border-radius: 5px;
+    }
+
+    /* Картки товарів на мобільному */
+    .product-item {
+        grid-template-columns: 1fr; /* Фото стає зверху, текст знизу */
+        gap: 15px;
+        padding: 15px;
+    }
+
+    .product-info h3 {
+        font-size: 18px;
+    }
+
+    .product-info p {
+        font-size: 14px;
+    }
 }
