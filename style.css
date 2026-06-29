@@ -1,5 +1,5 @@
 /* ==========================================================================
-   СКИДАННЯ СТИЛІВ ТА БАЗОВІ НАЛАШТУВАННЯ
+   ОБНУЛЕННЯ ТА БАЗОВІ НАЛАШТУВАННЯ
    ========================================================================== */
 * {
     margin: 0;
@@ -7,141 +7,296 @@
     box-sizing: border-box;
 }
 
-:root {
-    --bg-color: #ffffff;
-    --text-main: #121212;
-    --accent-color: #a87c43;
-    --border-color: #eaeaea;
-}
-
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-main);
-    line-height: 1.4;
-}
-
-header {
-    padding: 25px 50px;
-    background: #fff;
-    border-bottom: 1px solid #f5f5f5;
-}
-
-.logo {
-    font-size: 22px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 2px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #ededed; /* Сіруватий фон за межами карток */
+    color: #1a1a1a;
 }
 
 /* ==========================================================================
-   ДВОКОЛОНКОВА СТРУКТУРА VINIDA
+   ЧОРНИЙ ХЕДЕР (ЯК НА СКРІНШОТІ)
    ========================================================================== */
-.vinida-container {
+.main-header {
+    background-color: #1c1a19;
+    color: #ffffff;
+    padding: 20px 40px;
     display: flex;
-    width: 100%;
-    min-height: calc(100vh - 73px); /* Займає весь залишок екрана */
+    justify-content: space-between;
+    align-items: center;
 }
 
-/* Ліва частина: Картинка */
-.vinida-banner {
-    width: 45%; 
+.main-logo {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.header-subtitle {
+    font-size: 13px;
+    color: #b3b3b3;
+    margin-top: 4px;
+}
+
+.tg-btn {
+    background-color: #ffffff;
+    color: #1c1a19;
+    text-decoration: none;
+    padding: 10px 20px;
+    font-weight: 600;
+    font-size: 14px;
+    border-radius: 6px;
+    transition: background 0.2s;
+}
+
+.tg-btn:hover {
+    background-color: #e5e5e5;
+}
+
+/* ==========================================================================
+   ГОЛОВНИЙ ДВОКОЛОНКОВИЙ КОНТЕНТ (index.html)
+   ========================================================================== */
+.home-container {
+    display: grid;
+    grid-template-columns: 1fr 340px; /* Великий банер та фіксована картка меню */
+    gap: 25px;
+    padding: 25px 40px;
+    max-width: 1440px;
+    margin: 0 auto;
+    align-items: start;
+}
+
+/* ЛІВА ЧАСТИНА: БАНЕР */
+.hero-carousel {
+    position: relative;
+    height: 580px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.carousel-track {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.slide {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
-    background-color: #f5f5f5; /* Тимчасовий фон, поки завантажиться фото */
+    opacity: 0;
+    transition: opacity 0.6s ease-in-out;
+}
+.slide.active { opacity: 1; }
+
+/* Кнопки банера */
+.carousel-btn {
+    position: absolute;
+    top: 50%; transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.8);
+    color: #000; border: none;
+    width: 40px; height: 40px;
+    border-radius: 50%; cursor: pointer;
+    font-size: 14px; display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    z-index: 10;
+}
+.carousel-btn.prev { left: 20px; }
+.carousel-btn.next { right: 20px; }
+
+/* Напівпрозора темна плашка з текстом внизу банера */
+.carousel-caption {
+    position: absolute;
+    bottom: 25px; left: 25px;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(4px);
+    padding: 20px 25px;
+    border-radius: 12px;
+    color: #fff;
+    max-width: 450px;
+    z-index: 5;
 }
 
-/* Права частина: Меню */
-.vinida-menu-wrapper {
-    width: 55%;
-    padding: 40px 8%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* Центрування по вертикалі */
+.carousel-caption h3 {
+    font-size: 22px; margin-bottom: 6px; font-weight: 600;
+}
+.carousel-caption p {
+    font-size: 13px; color: #e0e0e0; line-height: 1.4;
 }
 
-.menu-title {
-    font-size: 26px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 35px;
+/* ПРАВА ЧАСТИНА: БІЛА КАРТКА МЕНЮ */
+.catalog-sidebar {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
 }
 
-/* Контейнер для елементів меню */
+.sidebar-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
 .vinida-menu {
     display: flex;
     flex-direction: column;
-    width: 100%;
 }
 
 .menu-item {
-    border-bottom: 1px solid var(--border-color);
-    padding: 15px 0;
-    width: 100%;
+    border-bottom: 1px solid #f0f0f0;
+    padding: 14px 0;
+}
+.menu-item:last-child { border: none; }
+
+.menu-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
 }
 
-/* Назви головних категорій */
 .menu-parent {
-    font-size: 17px;
+    font-size: 15px;
     font-weight: 600;
-    color: var(--text-main);
-    display: block;
-    margin-bottom: 6px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
 }
 
-/* Підрозділи (посилання в один рядок) */
+.menu-arrow, .menu-plus {
+    font-size: 13px; color: #888;
+}
+
 .menu-sub {
     display: flex;
-    gap: 25px;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+    padding-left: 5px;
 }
 
 .menu-sub a {
-    font-size: 14px;
-    color: #555;
-    text-decoration: none;
-    transition: color 0.2s ease;
+    font-size: 13px;
+    color: #0056b3; /* Сині посилання підкатегорій */
+    text-decoration: underline;
 }
 
-.menu-sub a:hover {
-    color: var(--accent-color);
-}
-
-/* Поодинокі посилання */
 .menu-single {
-    font-size: 17px;
+    font-size: 15px;
     font-weight: 600;
-    color: var(--text-main);
+    color: #1a1a1a;
     text-decoration: none;
     display: block;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    transition: color 0.2s ease;
-}
-
-.menu-single:hover {
-    color: var(--accent-color);
 }
 
 /* ==========================================================================
-   АДАПТИВНІСТЬ ДЛЯ МОБІЛЬНИХ ВЕРСІЙ
+   ВНУТРІШНЯ СТОРІНКА ТОВАРІВ (category.html) — ПРАВИЛЬНИЙ ДВОКОЛОНКОВИЙ ВИГЛЯД
+   ========================================================================== */
+.category-header {
+    background: #fff;
+    padding: 20px 40px;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.back-btn {
+    background: #f0f0f0; color: #333; border: 1px solid #ccc;
+    padding: 8px 16px; cursor: pointer; border-radius: 6px; font-weight: 500;
+}
+
+.products-list {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+/* Картка товару: Фото зліва, Опис справа в один рядок */
+.product-item {
+    display: grid;
+    grid-template-columns: 450px 1fr; /* Жорстко фіксуємо фото зліва, текст справа */
+    gap: 40px;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    align-items: start; /* Текст починається від верху карти, а не падає вниз */
+}
+
+.product-img-wrapper {
+    width: 100%;
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-img-wrapper img {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: contain;
+    cursor: zoom-in;
+}
+
+/* Блок з інформацією (Текст справа) */
+.product-info {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.product-info h3 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.model-number { color: #000; font-weight: 800; }
+
+.product-info p {
+    font-size: 15px;
+    color: #2b2b2b;
+    line-height: 1.5;
+}
+
+/* Виділяємо жирним назви параметрів */
+.product-info p strong {
+    font-weight: 700;
+    color: #000;
+    display: inline-block;
+    width: 80px; /* Однаковий відступ для параметрів */
+}
+
+.product-info .description {
+    margin-top: 10px;
+    padding-top: 15px;
+    border-top: 1px solid #f0f0f0;
+    color: #555;
+}
+
+/* ==========================================================================
+   МОДАЛКА ПЕРЕГЛЯДУ ФОТО (ЛАЙТБОКС)
+   ========================================================================== */
+.lightbox { position: fixed; z-index: 3000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: none; justify-content: center; align-items: center; }
+.lightbox-content { max-width: 90%; max-height: 85%; }
+.lightbox img { max-width: 100%; max-height: 100%; object-fit: contain; cursor: zoom-out; }
+.close-lightbox { position: absolute; top: 20px; right: 25px; color: #fff; font-size: 45px; cursor: pointer; }
+.lightbox-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: none; border: none; color: #fff; font-size: 45px; cursor: pointer; padding: 20px; }
+.arrow-left { left: 10px; } .arrow-right { right: 10px; }
+
+/* ==========================================================================
+   АДАПТИВНІСТЬ ДЛЯ МОБІЛОК
    ========================================================================== */
 @media (max-width: 991px) {
-    .vinida-container {
-        flex-direction: column;
-    }
-    .vinida-banner {
-        width: 100%;
-        height: 250px;
-    }
-    .vinida-menu-wrapper {
-        width: 100%;
-        padding: 35px 20px;
-    }
-    header {
-        padding: 20px;
-    }
+    .home-container { grid-template-columns: 1fr; padding: 15px; gap: 20px; }
+    .hero-carousel { height: 350px; }
+    .main-header { flex-direction: column; gap: 15px; text-align: center; padding: 20px; }
+    .product-item { grid-template-columns: 1fr; gap: 20px; padding: 20px; }
+    .lightbox-arrow { display: none; }
 }
