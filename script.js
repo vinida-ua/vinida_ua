@@ -21,16 +21,14 @@ document.addEventListener("DOMContentLoaded", () => {
         setInterval(() => showSlide(currentSlide + 1), 5000);
     }
 
-    // ==========================================================================
-    // 2. СЛОВНИК НАЗВ КАТЕГОРІЙ (Для заголовків сторінок)
+   // ==========================================================================
+    // 2. СЛОВНИК НАЗВ КАТЕГОРІЙ (Для відповідності заголовків на сторінці товарів)
     // ==========================================================================
     const categoryNames = {
-        'komody-vsi': 'Всі комоди',
+        'komody-vsi': 'Звичайні комоди',
         'komody-dveri': 'Комоди з дверцятами',
-        'shafy-standart': 'Звичайні шафи',
-        'shafy-kupe': 'Шафи-купе',
+        'shafy': 'Шафи',
         'kuhni-vsi': 'Кухні',
-        'kuhni-tumby': 'Кухонні тумби',
         'lizhka': 'Ліжка',
         'stoly': 'Столи',
         'pryhozhi': 'Прихожі',
@@ -38,20 +36,31 @@ document.addEventListener("DOMContentLoaded", () => {
         'obuvnyci': 'Обувниці',
         'polyci': 'Полиці',
         'tumby-tv': 'Тумби TV',
+        'kuhni-tumby': 'Кухонні тумби',
         'rizne': 'Різне'
     };
 
     // ==========================================================================
     // 3. КОНФІГУРАТОР АВТОМАТИЧНИХ ФОТОГАЛЕРЕЙ
-    //    Сюди додаєш назву папки та кількість фото для кожної категорії
+    //    Сюди вписуєш назву папки, кількість фото та розширення файлів (.png чи .jpg)
     // ==========================================================================
     const categoryConfig = {
         'shafy': { folder: 'Shafu', total: 22, ext: 'png' },
-        // Коли створиш папки для інших категорій — просто розкоментуй або додай рядки нижче:
-        // 'komody-vsi': { folder: 'Komody', total: 10, ext: 'jpg' },
-        // 'shafy-kupe': { folder: 'Kupe', total: 15, ext: 'png' }
+        
+        // Для активації нових папок просто замінюй total: 0 на реальну кількість фото:
+        'komody-vsi': { folder: 'Komody_Zbychayni', total: 0, ext: 'png' },
+        'komody-dveri': { folder: 'Komody_Dveri', total: 0, ext: 'png' },
+        'kuhni-vsi': { folder: 'Kuhni', total: 0, ext: 'png' },
+        'lizhka': { folder: 'Lizhka', total: 0, ext: 'png' },
+        'stoly': { folder: 'Stoly', total: 0, ext: 'png' },
+        'pryhozhi': { folder: 'Pryhozhi', total: 0, ext: 'png' },
+        'vishalky': { folder: 'Vishalky', total: 0, ext: 'png' },
+        'obuvnyci': { folder: 'Obuvnyci', total: 0, ext: 'png' },
+        'polyci': { folder: 'Polyci', total: 0, ext: 'png' },
+        'tumby-tv': { folder: 'Tumby_TV', total: 0, ext: 'png' },
+        'kuhni-tumby': { folder: 'Kuhni_Tumby', total: 0, ext: 'png' },
+        'rizne': { folder: 'Rizne', total: 0, ext: 'png' }
     };
-
     // ==========================================================================
     // 4. АВТОМАТИЧНЕ ВИВЕДЕННЯ ЧИСТИХ ФОТОГРАФІЙ (category.html)
     // ==========================================================================
