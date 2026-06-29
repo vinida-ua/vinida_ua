@@ -189,29 +189,57 @@ body {
 }
 
 /* ==========================================================================
-   ВНУТРІШНЯ СТОРІНКА ТОВАРІВ (category.html) — ПРАВИЛЬНИЙ ДВОКОЛОНКОВИЙ ВИГЛЯД
+   ОНОВЛЕНИЙ ХЕДЕР ДЛЯ СТОРІНКИ ТОВАРІВ (category.html)
    ========================================================================== */
 .category-header {
-    background: #fff;
-    padding: 20px 40px;
-    border-bottom: 1px solid #e0e0e0;
+    background: #ffffff;
+    padding: 35px 40px 20px 40px; /* Збільшили відступи, щоб дати «повітря» */
     display: flex;
-    align-items: center;
-    gap: 20px;
+    justify-content: space-between; /* Розносить назву ліворуч, а кнопку праворуч */
+    align-items: flex-end; /* Вирівнює кнопку по нижній лінії тексту */
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
 }
 
+/* Напис категорії (наприклад: "Всі комоди") */
+.category-header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0;
+    letter-spacing: 0.5px;
+}
+
+/* КНОПКА «НА ГОЛОВНУ» (Темна, як верх шапки) */
 .back-btn {
-    background: #f0f0f0; color: #333; border: 1px solid #ccc;
-    padding: 8px 16px; cursor: pointer; border-radius: 6px; font-weight: 500;
+    background-color: #1c1a19; /* Той самий колір, що й на головній */
+    color: #ffffff;
+    border: none;
+    padding: 12px 24px;
+    cursor: pointer;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    transition: background-color 0.2s, transform 0.2s;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    margin-bottom: 5px; /* Трохи піднімаємо від самого низу */
 }
 
+.back-btn:hover {
+    background-color: #33302e; /* Легке освітлення при наведенні */
+    transform: translateY(-1px); /* Легкий інтерактивний ефект підстрибування */
+}
+
+/* Корректуємо відступ списку товарів під новий хедер */
 .products-list {
     max-width: 1200px;
-    margin: 30px auto;
+    margin: 15px auto 40px auto;
     padding: 0 20px;
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 35px;
 }
 
 /* Картка товару: Фото зліва, Опис справа в один рядок */
