@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
     
-    // --- 1. ГОЛОВНА КАРУСЕЛЬ (для index.html) ---
+    // ==========================================================================
+    // 1. ГОЛОВНА КАРУСЕЛЬ (для index.html)
+    // ==========================================================================
     const slides = document.querySelectorAll(".slide");
     if (slides.length > 0) {
         let currentSlide = 0;
@@ -14,12 +16,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (nextBtn) nextBtn.addEventListener("click", () => showSlide(currentSlide + 1));
-        if (prevBtn) prevBtn.addEventListener("click", () => showSlide(currentSlide - 1));
+        if (prevBtn) prevBtn.addEventListener("click", () => showSlide(currentSlide - -1));
         
         setInterval(() => showSlide(currentSlide + 1), 5000);
     }
 
-    // --- 2. СЛОВНИК НАЗВ КАТЕГОРІЙ ---
+    // ==========================================================================
+    // 2. СЛОВНИК НАЗВ КАТЕГОРІЙ (Для заголовків сторінок)
+    // ==========================================================================
     const categoryNames = {
         'komody-vsi': 'Всі комоди',
         'komody-dveri': 'Комоди з дверцятами',
@@ -37,100 +41,64 @@ document.addEventListener("DOMContentLoaded", () => {
         'rizne': 'Різне'
     };
 
-    document.addEventListener("DOMContentLoaded", function() {
-    const container = document.getElementById("products-container");
-    if (!container) return;
+    // ==========================================================================
+    // 3. КОНФІГУРАТОР АВТОМАТИЧНИХ ФОТОГАЛЕРЕЙ
+    //    Сюди додаєш назву папки та кількість фото для кожної категорії
+    // ==========================================================================
+    const categoryConfig = {
+        'shafy': { folder: 'Shafu', total: 22, ext: 'png' },
+        // Коли створиш папки для інших категорій — просто розкоментуй або додай рядки нижче:
+        // 'komody-vsi': { folder: 'Komody', total: 10, ext: 'jpg' },
+        // 'shafy-kupe': { folder: 'Kupe', total: 15, ext: 'png' }
+    };
 
-    // ВКАЖИ ТУТ КІЛЬКІСТЬ ФОТОГРАФІЙ У ПАПЦІ
-    const totalPhotos = 22; 
-    const folderName = "Shafu"; // Назва твоєї папки з великої літери
-
-    // Цикл, який автоматично створює картки для кожного фото
-    for (let i = 1; i <= totalPhotos; i++) {
-        // Додаємо нуль попереду для чисел від 1 до 9 (щоб вийшло 01, 02... 10)
-        const photoNumber = i < 10 ? "0" + i : i; 
-        
-        // Створюємо HTML-структуру картки (тільки фото, без тексту, як ми домовлялися)
-        const productItem = document.createElement("div");
-        productItem.classList.add("product-item");
-
-        productItem.innerHTML = `
-            <div class="product-img-wrapper">
-                <img src="images/${folderName}/${photoNumber}.png" alt="Фото ${photoNumber}">
-            </div>
-        `;
-
-        container.appendChild(productItem);
-    }
-});
-
-    // Функція-помічник для швидкого заповнення масиву товарів
-    function generateCategoryProducts(catKey, prefix, imgPrefix, extension = 'jpg') {
-        let list = [];
-        for (let i = 1; i <= 10; i++) {
-            list.push({
-                model: `№ ${prefix}-${100 + i}`,
-                size: `${800 + (i * 30)} х ${1000 + (i * 10)} х 450 мм`,
-                color: i % 2 === 0 ? "Дуб Венге / Білий глянець" : "Дуб Сонома / Графіт",
-                desc: `Якісні та сучасні меблі з секції "${categoryNames[catKey]}". Модель розроблена з урахуванням ергономіки та сучасних трендів дизайну. Позиція №${i}.`,
-                // ТУТ ФОРМУЄТЬСЯ НАЗВА ФОТО: наприклад, komod1.jpg, komod2.jpg... або shafa_kupe1.jpg
-                img: `${imgPrefix}${i}.${extension}` 
-            });
-        }
-        return list;
-    }
-
-    // Заповнюємо кожну категорію. 
-    // Ти можеш міняти префікси назв файлів, як тобі зручно (наприклад, 'komod', 'shafa')
-    productsData['komody-vsi'] = generateCategoryProducts('komody-vsi', 'KOM', 'komod');
-    productsData['komody-dveri'] = generateCategoryProducts('komody-dveri', 'KMD', 'komod_dveri');
-    
-    productsData['shafy-standart'] = generateCategoryProducts('shafy-standart', 'SHF', 'shafa_standart');
-    productsData['shafy-kupe'] = generateCategoryProducts('shafy-kupe', 'SHK', 'shafa_kupe');
-    
-    productsData['kuhni-vsi'] = generateCategoryProducts('kuhni-vsi', 'KHN', 'kuhnya');
-    productsData['kuhni-tumby'] = generateCategoryProducts('kuhni-tumby', 'KHT', 'kuhnya_tumba');
-    
-    productsData['lizhka'] = generateCategoryProducts('lizhka', 'LZH', 'lizhko');
-    productsData['stoly'] = generateCategoryProducts('stoly', 'STL', 'stil');
-    productsData['pryhozhi'] = generateCategoryProducts('pryhozhi', 'PRH', 'pryhozha');
-    productsData['vishalky'] = generateCategoryProducts('vishalky', 'VSH', 'vishalka');
-    productsData['obuvnyci'] = generateCategoryProducts('obuvnyci', 'OBV', 'obuvnycia');
-    productsData['polyci'] = generateCategoryProducts('polyci', 'PLC', 'polycia');
-    productsData['tumby-tv'] = generateCategoryProducts('tumby-tv', 'TTV', 'tumba_tv');
-    productsData['rizne'] = generateCategoryProducts('rizne', 'RZN', 'rizne');
-
-
-    // --- 4. ВІДОБРАЖЕННЯ ТОВАРІВ НА СТОРІНЦІ КАТЕГОРІЇ ---
+    // ==========================================================================
+    // 4. АВТОМАТИЧНЕ ВИВЕДЕННЯ ЧИСТИХ ФОТОГРАФІЙ (category.html)
+    // ==========================================================================
     const titleEl = document.getElementById("category-title");
     const containerEl = document.getElementById("products-container");
 
     if (titleEl && containerEl) {
+        // Отримуємо поточний тип категорії з посилання URL
         const urlParams = new URLSearchParams(window.location.search);
-        const currentCat = urlParams.get('type') || 'komody-vsi';
+        const currentCat = urlParams.get('type') || 'shafy-standart';
 
+        // Ставимо назву у заголовок сторінки
         titleEl.textContent = categoryNames[currentCat] || "Каталог меблів";
-        const currentProducts = productsData[currentCat] || [];
 
-        currentProducts.forEach((prod, index) => {
-            const productHTML = `
-                <div class="product-item">
-                    <div class="product-img-wrapper">
-                        <img src="${prod.img}" alt="${prod.model}" class="gallery-trigger" data-index="${index}" onerror="this.onerror=null;this.src='https://placehold.co/600x450?text=Відсутнє+фото';">
+        // Беремо налаштування фото для цієї категорії (якщо немає — ставимо порожньо)
+        const config = categoryConfig[currentCat];
+
+        if (config) {
+            // Цикл створення фото-карток
+            for (let i = 1; i <= config.total; i++) {
+                // Додаємо нуль для чисел 1-9 (01, 02... 10)
+                const photoNumber = i < 10 ? "0" + i : i;
+                const imgSrc = `images/${config.folder}/${photoNumber}.${config.ext}`;
+
+                // Генеруємо HTML картки (Тільки чисте фото + класи для роботи Лайтбоксу)
+                const productHTML = `
+                    <div class="product-item">
+                        <div class="product-img-wrapper">
+                            <img src="${imgSrc}" 
+                                 alt="Фото ${photoNumber}" 
+                                 class="gallery-trigger" 
+                                 data-index="${i - 1}" 
+                                 onerror="this.onerror=null;this.src='https://placehold.co/600x450?text=Відсутнє+фото';">
+                        </div>
                     </div>
-                    <div class="product-info">
-                        <h3>Модель: <span class="model-number">${prod.model}</span></h3>
-                        <p><strong>Розмір:</strong> ${prod.size}</p>
-                        <p><strong>Колір:</strong> ${prod.color}</p>
-                        <p class="description">${prod.desc}</p>
-                    </div>
-                </div>
-            `;
-            containerEl.insertAdjacentHTML('beforeend', productHTML);
-        });
+                `;
+                containerEl.insertAdjacentHTML('beforeend', productHTML);
+            }
+        } else {
+            // Якщо для категорії ще не створена папка конфігурації
+            containerEl.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #888; padding: 40px 0;">Галерея фотографій оновлюється...</p>`;
+        }
     }
 
-    // --- 5. МОДАЛЬНЕ ВІКНО (ЛАЙТБОКС) ДЛЯ ФОТО ---
+    // ==========================================================================
+    // 5. МОДАЛЬНЕ ВІКНО (ЛАЙТБОКС) ДЛЯ ФОТОГРАФІЙ
+    // ==========================================================================
     const lightbox = document.getElementById("lightbox");
     const lightboxImg = document.getElementById("lightbox-img");
     const closeBtn = document.querySelector(".close-lightbox");
@@ -155,6 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function openLightbox(src) {
+        if (!lightboxImg || !lightbox) return;
         lightboxImg.src = src;
         lightbox.style.display = "flex";
         scale = 1;
@@ -166,7 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function changeImage(dir) {
-        if (activeImages.length === 0) return;
+        if (activeImages.length === 0 || !lightboxImg) return;
         currentIndex = (currentIndex + dir + activeImages.length) % activeImages.length;
         lightboxImg.src = activeImages[currentIndex];
         scale = 1;
@@ -204,7 +173,10 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
-// Розгортання категорій при натисканні (Акордеон)
+
+// ==========================================================================
+// 6. РОЗГОРТАННЯ КАТЕГОРІЙ В МЕНЮ (АКОРДЕОН НА ГОЛОВНІЙ)
+// ==========================================================================
 document.addEventListener("DOMContentLoaded", function() {
     const menuRows = document.querySelectorAll(".menu-item .menu-row");
 
