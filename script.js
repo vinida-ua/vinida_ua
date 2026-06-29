@@ -19,8 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
         setInterval(() => showSlide(currentSlide + 1), 5000);
     }
 
-    // --- 2. БАЗА ДАНИХ ТОВАРІВ (Каталог) ---
-    // Словник для гарних назв категорій
+    // --- 2. СЛОВНИК НАЗВ КАТЕГОРІЙ ---
     const categoryNames = {
         'komody-vsi': 'Всі комоди',
         'komody-dveri': 'Комоди з дверцятами',
@@ -38,32 +37,47 @@ document.addEventListener("DOMContentLoaded", () => {
         'rizne': 'Різне'
     };
 
-    // Створюємо об'єкт, де для кожної категорії буде по 10 товарів
+    // --- 3. РУЧНЕ НАЛАШТУВАННЯ ФОТО ТА ДАНИХ (ПО 10 ТОВАРІВ) ---
     const productsData = {};
 
-    // Автоматично генеруємо по 10 товарів для кожної категорії з реальними даними
-    Object.keys(categoryNames).forEach(catKey => {
-        productsData[catKey] = [];
-        
-        // Визначимо базові фото для різних типів меблів, щоб вони виглядали реалістично
-        let imgUrl = "https://images.unsplash.com/photo-1595428774223-ef52624120d2?q=80&w=600"; // дефолт (комод)
-        if (catKey.includes('shafy')) imgUrl = "https://images.unsplash.com/photo-1558882224-cca166733360?q=80&w=600"; // шафа
-        if (catKey.includes('kuhni')) imgUrl = "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=600"; // кухня
-        if (catKey === 'lizhka') imgUrl = "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=600"; // ліжко
-        if (catKey === 'stoly') imgUrl = "https://images.unsplash.com/photo-1577140917170-285929fb55b7?q=80&w=600"; // стіл
-
+    // Функція-помічник для швидкого заповнення масиву товарів
+    function generateCategoryProducts(catKey, prefix, imgPrefix, extension = 'jpg') {
+        let list = [];
         for (let i = 1; i <= 10; i++) {
-            productsData[catKey].push({
-                model: `№ ${catKey.slice(0,3).toUpperCase()}-${100 + i}`,
-                size: `${800 + (i*50)} х ${1000 + (i*20)} х 450 мм`,
+            list.push({
+                model: `№ ${prefix}-${100 + i}`,
+                size: `${800 + (i * 30)} х ${1000 + (i * 10)} х 450 мм`,
                 color: i % 2 === 0 ? "Дуб Венге / Білий глянець" : "Дуб Сонома / Графіт",
-                desc: `Елегантний та надійний виріб з категорії "${categoryNames[catKey]}". Позиція №${i} у нашому каталозі. Висока якість збірки та сучасні матеріали.`,
-                img: imgUrl
+                desc: `Якісні та сучасні меблі з секції "${categoryNames[catKey]}". Модель розроблена з урахуванням ергономіки та сучасних трендів дизайну. Позиція №${i}.`,
+                // ТУТ ФОРМУЄТЬСЯ НАЗВА ФОТО: наприклад, komod1.jpg, komod2.jpg... або shafa_kupe1.jpg
+                img: `${imgPrefix}${i}.${extension}` 
             });
         }
-    });
+        return list;
+    }
 
-    // --- 3. ВІДОБРАЖЕННЯ ТОВАРІВ НА СТОРІНЦІ КАТЕГОРІЇ ---
+    // Заповнюємо кожну категорію. 
+    // Ти можеш міняти префікси назв файлів, як тобі зручно (наприклад, 'komod', 'shafa')
+    productsData['komody-vsi'] = generateCategoryProducts('komody-vsi', 'KOM', 'komod');
+    productsData['komody-dveri'] = generateCategoryProducts('komody-dveri', 'KMD', 'komod_dveri');
+    
+    productsData['shafy-standart'] = generateCategoryProducts('shafy-standart', 'SHF', 'shafa_standart');
+    productsData['shafy-kupe'] = generateCategoryProducts('shafy-kupe', 'SHK', 'shafa_kupe');
+    
+    productsData['kuhni-vsi'] = generateCategoryProducts('kuhni-vsi', 'KHN', 'kuhnya');
+    productsData['kuhni-tumby'] = generateCategoryProducts('kuhni-tumby', 'KHT', 'kuhnya_tumba');
+    
+    productsData['lizhka'] = generateCategoryProducts('lizhka', 'LZH', 'lizhko');
+    productsData['stoly'] = generateCategoryProducts('stoly', 'STL', 'stil');
+    productsData['pryhozhi'] = generateCategoryProducts('pryhozhi', 'PRH', 'pryhozha');
+    productsData['vishalky'] = generateCategoryProducts('vishalky', 'VSH', 'vishalka');
+    productsData['obuvnyci'] = generateCategoryProducts('obuvnyci', 'OBV', 'obuvnycia');
+    productsData['polyci'] = generateCategoryProducts('polyci', 'PLC', 'polycia');
+    productsData['tumby-tv'] = generateCategoryProducts('tumby-tv', 'TTV', 'tumba_tv');
+    productsData['rizne'] = generateCategoryProducts('rizne', 'RZN', 'rizne');
+
+
+    // --- 4. ВІДОБРАЖЕННЯ ТОВАРІВ НА СТОРІНЦІ КАТЕГОРІЇ ---
     const titleEl = document.getElementById("category-title");
     const containerEl = document.getElementById("products-container");
 
@@ -71,18 +85,14 @@ document.addEventListener("DOMContentLoaded", () => {
         const urlParams = new URLSearchParams(window.location.search);
         const currentCat = urlParams.get('type') || 'komody-vsi';
 
-        // Ставимо правильний заголовок підрозділу
         titleEl.textContent = categoryNames[currentCat] || "Каталог меблів";
-
-        // Беремо масив з 10 товарів для цієї категорії
         const currentProducts = productsData[currentCat] || [];
 
-        // Генеруємо HTML-код для кожного з 10 товарів
         currentProducts.forEach((prod, index) => {
             const productHTML = `
                 <div class="product-item">
                     <div class="product-img-wrapper">
-                        <img src="${prod.img}" alt="${prod.model}" class="gallery-trigger" data-index="${index}">
+                        <img src="${prod.img}" alt="${prod.model}" class="gallery-trigger" data-index="${index}" onerror="this.onerror=null;this.src='https://placehold.co/600x450?text=Відсутнє+фото';">
                     </div>
                     <div class="product-info">
                         <h3>Модель: <span class="model-number">${prod.model}</span></h3>
@@ -96,7 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // --- 4. МОДАЛЬНЕ ВІКНО (ЛАЙТБОКС) ДЛЯ ФОТО ---
+    // --- 5. МОДАЛЬНЕ ВІКНО (ЛАЙТБОКС) ДЛЯ ФОТО ---
     const lightbox = document.getElementById("lightbox");
     const lightboxImg = document.getElementById("lightbox-img");
     const closeBtn = document.querySelector(".close-lightbox");
@@ -109,14 +119,11 @@ document.addEventListener("DOMContentLoaded", () => {
     let startX = 0;
     let endX = 0;
 
-    // Слухаємо кліки на картинки товарів (вони створюються динамічно, тому слухаємо через container)
     if (containerEl) {
         containerEl.addEventListener("click", (e) => {
             if (e.target.classList.contains("gallery-trigger")) {
-                // Збираємо всі картинки, які зараз є на сторінці (всі 10 шт)
                 const allTriggers = containerEl.querySelectorAll(".gallery-trigger");
                 activeImages = Array.from(allTriggers).map(img => img.src);
-                
                 currentIndex = parseInt(e.target.getAttribute("data-index"));
                 openLightbox(activeImages[currentIndex]);
             }
@@ -153,7 +160,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-        // Мобільні свайпи
         lightbox.addEventListener("touchstart", (e) => {
             startX = e.touches[0].clientX;
         }, {passive: true});
@@ -161,12 +167,11 @@ document.addEventListener("DOMContentLoaded", () => {
         lightbox.addEventListener("touchend", (e) => {
             endX = e.changedTouches[0].clientX;
             let threshold = 60;
-            if (startX - endX > threshold) changeImage(1);  // свайп вліво
-            if (endX - startX > threshold) changeImage(-1); // свайп вправо
+            if (startX - endX > threshold) changeImage(1);
+            if (endX - startX > threshold) changeImage(-1);
         }, {passive: true});
     }
 
-    // Зум по кліку/тапу на велике фото
     if (lightboxImg) {
         lightboxImg.addEventListener("click", (e) => {
             e.stopPropagation();
