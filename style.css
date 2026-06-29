@@ -1,26 +1,30 @@
 /* ==========================================================================
-   КОЛЬОРИ ТА БАЗОВІ СТИЛІ
+   СКИДАННЯ СТИЛІВ ТА БАЗОВІ НАЛАШТУВАННЯ
    ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 :root {
     --bg-color: #ffffff;
     --text-main: #121212;
-    --accent-color: #8c765c; /* Спокійний преміальний колір для ліній та посилань */
-    --light-grey: #f9f9f9;
-    --overlay: rgba(0, 0, 0, 0.9);
+    --accent-color: #a87c43;
+    --border-color: #eaeaea;
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
     background-color: var(--bg-color);
     color: var(--text-main);
-    margin: 0;
-    padding: 0;
+    line-height: 1.4;
 }
 
 header {
-    padding: 30px 50px;
+    padding: 25px 50px;
     background: #fff;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid #f5f5f5;
 }
 
 .logo {
@@ -31,85 +35,91 @@ header {
 }
 
 /* ==========================================================================
-   ДВОКОЛОНКОВИЙ БЛОК (СТИЛЬ VINIDA)
+   ДВОКОЛОНКОВА СТРУКТУРА VINIDA
    ========================================================================== */
 .vinida-container {
     display: flex;
-    min-height: calc(100vh - 85px); /* Займає весь залишок екрана */
+    width: 100%;
+    min-height: calc(100vh - 73px); /* Займає весь залишок екрана */
 }
 
-/* ЛІВА ЧАСТИНА: Велике вертикальне фото */
+/* Ліва частина: Картинка */
 .vinida-banner {
-    width: 45%; /* Майже половина екрана */
+    width: 45%; 
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    position: relative;
+    background-color: #f5f5f5; /* Тимчасовий фон, поки завантажиться фото */
 }
 
-/* ПРАВА ЧАСТИНА: Меню-каталог */
+/* Права частина: Меню */
 .vinida-menu-wrapper {
     width: 55%;
-    padding: 60px 10%;
+    padding: 40px 8%;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Центрує меню по вертикалі */
+    justify-content: center; /* Центрування по вертикалі */
 }
 
 .menu-title {
-    font-size: 28px;
-    font-weight: 400;
+    font-size: 26px;
+    font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 1px;
-    margin-bottom: 40px;
-    color: #333;
+    margin-bottom: 35px;
 }
 
+/* Контейнер для елементів меню */
 .vinida-menu {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
 
-.vinida-menu > li {
-    border-bottom: 1px solid #eaeaea;
+.menu-item {
+    border-bottom: 1px solid var(--border-color);
     padding: 15px 0;
+    width: 100%;
 }
 
-/* Назви головних категорій (комоди, шафи...) */
+/* Назви головних категорій */
 .menu-parent {
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 600;
     color: var(--text-main);
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-/* Підрозділи всередині категорій */
+/* Підрозділи (посилання в один рядок) */
 .menu-sub {
     display: flex;
-    gap: 20px;
+    gap: 25px;
 }
 
 .menu-sub a {
     font-size: 14px;
-    color: #666;
+    color: #555;
     text-decoration: none;
-    transition: color 0.2s;
+    transition: color 0.2s ease;
 }
 
 .menu-sub a:hover {
     color: var(--accent-color);
 }
 
-/* Поодинокі категорії (без підрозділів) */
+/* Поодинокі посилання */
 .menu-single {
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 600;
     color: var(--text-main);
     text-decoration: none;
     display: block;
-    transition: color 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: color 0.2s ease;
 }
 
 .menu-single:hover {
@@ -117,49 +127,21 @@ header {
 }
 
 /* ==========================================================================
-   АДАПТИВНІСТЬ ДЛЯ СМАРТФОНІВ
+   АДАПТИВНІСТЬ ДЛЯ МОБІЛЬНИХ ВЕРСІЙ
    ========================================================================== */
-@media (max-width: 868px) {
+@media (max-width: 991px) {
     .vinida-container {
-        flex-direction: column; /* На мобілці фото стає зверху, список знизу */
+        flex-direction: column;
     }
-    
     .vinida-banner {
         width: 100%;
-        height: 250px; /* Фіксована висота фото на телефонах */
+        height: 250px;
     }
-    
     .vinida-menu-wrapper {
         width: 100%;
-        padding: 30px 20px;
+        padding: 35px 20px;
     }
-    
     header {
         padding: 20px;
     }
 }
-
-/* ==========================================================================
-   СТИЛІ ДЛЯ СТОРІНКИ ТОВАРІВ (category.html) ТА МОДАЛКИ
-   ========================================================================== */
-.back-btn { background: #121212; color: #fff; border: none; padding: 10px 20px; cursor: pointer; transition: 0.3s; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
-.back-btn:hover { background: var(--accent-color); }
-.products-list { display: flex; flex-direction: column; gap: 40px; margin-top: 30px; padding: 20px; }
-.product-item { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; background: #fff; padding: 20px 0; border-bottom: 1px solid #eee; }
-@media (max-width: 768px) { .product-item { grid-template-columns: 1fr; gap: 20px; } .lightbox-arrow { display: none; } }
-.product-img-wrapper img { width: 100%; height: auto; max-height: 450px; object-fit: cover; cursor: zoom-in; }
-.product-info h3 { margin-top: 0; font-size: 24px; font-weight: 500; }
-.model-number { color: var(--accent-color); }
-.product-info p { margin: 12px 0; font-size: 15px; color: #444; line-height: 1.6; }
-.product-info .description { margin-top: 20px; color: #666; }
-
-/* СТИЛІ МОДАЛЬНОГО ВІКНА ДЛЯ ЗУМУ (ЯК ТИ І ПРОСИВ) */
-.lightbox { position: fixed; z-index: 3000; top: 0; left: 0; width: 100%; height: 100%; background: var(--overlay); display: none; justify-content: center; align-items: center; touch-action: none; }
-.lightbox-content { max-width: 90%; max-height: 85%; display: flex; justify-content: center; align-items: center; overflow: hidden; }
-.lightbox img { max-width: 100%; max-height: 100%; object-fit: contain; transition: transform 0.2s ease; user-select: none; cursor: zoom-out; }
-.close-lightbox { position: absolute; top: 25px; right: 30px; color: #fff; font-size: 45px; cursor: pointer; line-height: 1; }
-.close-lightbox:hover { color: var(--accent-color); }
-.lightbox-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: none; border: none; color: rgba(255, 255, 255, 0.6); font-size: 50px; cursor: pointer; padding: 20px; }
-.lightbox-arrow:hover { color: #fff; }
-.arrow-left { left: 15px; }
-.arrow-right { right: 15px; }
