@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
         'komody-vsi': { folder: 'Komody_Zbychayni', total: 0, ext: 'png' },
         'komody-dveri': { folder: 'Komody_Dveri', total: 0, ext: 'png' },
         'kuhni-vsi': { folder: 'Kuhni', total: 24, ext: 'png' },
-        'lizhka': { folder: 'Lizhka', total: 0, ext: 'png' },
+        'lizhka': { folder: 'Lizhka', total: 10, ext: 'png' },
         'stoly': { folder: 'Stoly', total: 0, ext: 'png' },
         'pryhozhi': { folder: 'Pryhozhi', total: 0, ext: 'png' },
         'vishalky': { folder: 'Vishalky', total: 0, ext: 'png' },
