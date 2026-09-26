@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
         'stoly': { folder: 'Stoly', total: 4, ext: 'png' },
         'pryhozhi': { folder: 'Pryhozhi', total: 8, ext: 'png' },
         'vishalky': { folder: 'Vishalky', total: 0, ext: 'png' },
-        'obuvnyci': { folder: 'Obuvnyci', total: 0, ext: 'png' },
+        'obuvnyci': { folder: 'Obuvnyci', total: 6, ext: 'png' },
         'polyci': { folder: 'Polyci', total: 0, ext: 'png' },
         'tumby-tv': { folder: 'Tumby_TV', total: 0, ext: 'png' },
         'kuhni-tumby': { folder: 'Kuhni_Tumby', total: 0, ext: 'png' },
