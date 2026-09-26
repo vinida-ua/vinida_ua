@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
         'kuhni-vsi': { folder: 'Kuhni', total: 24, ext: 'png' },
         'lizhka': { folder: 'Lizhka', total: 10, ext: 'png' },
         'stoly': { folder: 'Stoly', total: 0, ext: 'png' },
-        'pryhozhi': { folder: 'Pryhozhi', total: 0, ext: 'png' },
+        'pryhozhi': { folder: 'Pryhozhi', total: 8, ext: 'png' },
         'vishalky': { folder: 'Vishalky', total: 0, ext: 'png' },
         'obuvnyci': { folder: 'Obuvnyci', total: 0, ext: 'png' },
         'polyci': { folder: 'Polyci', total: 0, ext: 'png' },
