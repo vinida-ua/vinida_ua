@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const categoryConfig = {
         'shafy': { folder: 'Shafu', total: 22, ext: 'png' },
         'komody-vsi': { folder: 'Komody_Zbychayni', total: 71, ext: 'png' },
-        'komody-dveri': { folder: 'Komody_Dveri', total: 0, ext: 'png' },
+        'komody-dveri': { folder: 'Komody_Dveri', total: 24, ext: 'png' },
         'kuhni-vsi': { folder: 'Kuhni', total: 24, ext: 'png' },
         'lizhka': { folder: 'Lizhka', total: 10, ext: 'png' },
         'stoly': { folder: 'Stoly', total: 4, ext: 'png' },
