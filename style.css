@@ -369,3 +369,44 @@ body {
         max-height: 200px !important; /* Зменшена висота для екрана телефону */
     }
 }
+/* Кнопка "Дізнатися про товар" у повноекранному фото */
+.telegram-product-btn {
+    display: block;
+    margin: 20px auto 0;
+    padding: 13px 22px;
+    background: #229ed9;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+.telegram-product-btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
+
+.telegram-product-btn:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+.telegram-status {
+    color: #ffffff;
+    text-align: center;
+    font-size: 13px;
+    margin-top: 10px;
+}
+
+/* На телефоні */
+@media (max-width: 768px) {
+    .telegram-product-btn {
+        width: calc(100% - 30px);
+        margin: 15px auto 0;
+        padding: 12px 15px;
+        font-size: 14px;
+    }
+}
