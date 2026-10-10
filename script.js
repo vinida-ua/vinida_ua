@@ -179,6 +179,12 @@ if (titleEl && containerEl) {
     const leftArrow = document.querySelector(".arrow-left");
     const rightArrow = document.querySelector(".arrow-right");
 
+    const telegramProductBtn = document.getElementById("telegram-product-btn");
+const telegramStatus = document.getElementById("telegram-status");
+
+const TELEGRAM_WORKER_URL =
+    "https://vinida-telegram.dananignik27.workers.dev";
+    
     let activeImages = [];
     let currentIndex = 0;
     let scale = 1;
