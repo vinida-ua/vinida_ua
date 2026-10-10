@@ -237,6 +237,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         lightboxImg.src = src;
         lightbox.style.display = "flex";
+        document.body.style.overflow = "hidden";
 
         scale = 1;
         lightboxImg.style.transform = `scale(${scale})`;
@@ -340,10 +341,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function closeLightbox() {
-        if (lightbox) {
-            lightbox.style.display = "none";
-        }
+    if (lightbox) {
+        lightbox.style.display = "none";
     }
+
+    document.body.style.overflow = "";
+}
 
     function changeImage(dir) {
         if (activeImages.length === 0 || !lightboxImg) return;
