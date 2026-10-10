@@ -203,13 +203,126 @@ const TELEGRAM_WORKER_URL =
     }
 
     function openLightbox(src) {
-        if (!lightboxImg || !lightbox) return;
-        lightboxImg.src = src;
-        lightbox.style.display = "flex";
-        scale = 1;
-        lightboxImg.style.transform = `scale(${scale})`;
+    if (!lightboxImg || !lightbox) return;
+
+    lightboxImg.src = src;
+    lightbox.style.display = "flex";
+
+    scale = 1;
+    lightboxImg.style.transform = `scale(${scale})`;
+
+    // Очищаємо попередній статус
+    if (telegramStatus) {
+        telegramStatus.textContent = "";
     }
 
+    if (telegramProductBtn) {
+        telegramProductBtn.disabled = false;
+        telegramProductBtn.textContent =
+            "💬 Дізнатися про цей товар";
+    }
+}
+
+    async function sendProductToTelegram() {
+
+    if (!lightboxImg || !telegramProductBtn) return;
+
+    telegramProductBtn.disabled = true;
+    telegramProductBtn.textContent = "⏳ Відправляємо...";
+
+    if (telegramStatus) {
+        telegramStatus.textContent = "";
+    }
+
+    try {
+
+        // Повна адреса поточного фото
+        const imageUrl = new URL(
+            lightboxImg.src,
+            window.location.href
+        ).href;
+
+        // Поточна категорія
+        const urlParams = new URLSearchParams(
+            window.location.search
+        );
+
+        const currentCat =
+            urlParams.get("type") || "shafy";
+
+        // Назва категорії
+        const category =
+            categoryNames[currentCat] || "Каталог меблів";
+
+        // Номер поточного фото
+        const photoNumber =
+            currentIndex + 1 < 10
+                ? "0" + (currentIndex + 1)
+                : currentIndex + 1;
+
+        const response = await fetch(
+            TELEGRAM_WORKER_URL,
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    imageUrl: imageUrl,
+                    category: category,
+                    photoNumber: photoNumber
+                })
+            }
+        );
+
+        const result = await response.json();
+
+        if (!response.ok || !result.ok) {
+            throw new Error(
+                result.error || "Не вдалося відправити фото"
+            );
+        }
+
+        telegramProductBtn.textContent =
+            "✅ Запит відправлено";
+
+        if (telegramStatus) {
+            telegramStatus.textContent =
+                "Ми отримали ваш запит!";
+        }
+
+        setTimeout(() => {
+            if (telegramProductBtn) {
+                telegramProductBtn.disabled = false;
+                telegramProductBtn.textContent =
+                    "💬 Дізнатися про цей товар";
+            }
+
+            if (telegramStatus) {
+                telegramStatus.textContent = "";
+            }
+        }, 3000);
+
+    } catch (error) {
+
+        console.error(
+            "Помилка відправки:",
+            error
+        );
+
+        telegramProductBtn.disabled = false;
+        telegramProductBtn.textContent =
+            "💬 Дізнатися про цей товар";
+
+        if (telegramStatus) {
+            telegramStatus.textContent =
+                "Не вдалося відправити. Спробуйте ще раз.";
+        }
+    }
+}
+    
     function closeLightbox() {
         if (lightbox) lightbox.style.display = "none";
     }
@@ -226,6 +339,13 @@ const TELEGRAM_WORKER_URL =
     if (leftArrow) leftArrow.addEventListener("click", () => changeImage(-1));
     if (rightArrow) rightArrow.addEventListener("click", () => changeImage(1));
 
+    if (telegramProductBtn) {
+    telegramProductBtn.addEventListener(
+        "click",
+        sendProductToTelegram
+    );
+}
+    
     if (lightbox) {
         lightbox.addEventListener("click", (e) => {
             if (e.target === lightbox || e.target.classList.contains('lightbox-content')) {
