@@ -62,47 +62,113 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // ==========================================================================
-    // 4. АВТОМАТИЧНЕ ВИВЕДЕННЯ ЧИСТИХ ФОТОГРАФІЙ (category.html)
-    // ==========================================================================
-    const titleEl = document.getElementById("category-title");
-    const containerEl = document.getElementById("products-container");
+// 4. АВТОМАТИЧНЕ ВИВЕДЕННЯ ФОТОГРАФІЙ З LAZY LOADING
+// 📱 Смартфон — по 3 фото
+// 💻 ПК — по 6 фото
+// ==========================================================================
 
-    if (titleEl && containerEl) {
-        // ОТУТ БУЛА ПОМИЛКА: Змінено 'shafy-standart' на 'shafy' за замовчуванням
-        const urlParams = new URLSearchParams(window.location.search);
-        const currentCat = urlParams.get('type') || 'shafy';
+const titleEl = document.getElementById("category-title");
+const containerEl = document.getElementById("products-container");
 
-        // Ставимо назву меблів у заголовок
-        titleEl.textContent = categoryNames[currentCat] || "Каталог меблів";
+if (titleEl && containerEl) {
 
-        // Беремо налаштування картинок
-        const config = categoryConfig[currentCat];
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentCat = urlParams.get('type') || 'shafy';
 
-        if (config && config.total > 0) {
-            containerEl.innerHTML = ""; // Повністю очищуємо контейнер
-            
-            // Цикл автоматичного створення карток
-            for (let i = 1; i <= config.total; i++) {
+    // Назва категорії
+    titleEl.textContent = categoryNames[currentCat] || "Каталог меблів";
+
+    // Налаштування фотографій
+    const config = categoryConfig[currentCat];
+
+    if (config && config.total > 0) {
+
+        containerEl.innerHTML = "";
+
+        // 📱 Телефон — 3 фото
+        // 💻 ПК — 6 фото
+        const photosPerLoad = window.innerWidth <= 768 ? 3 : 6;
+
+        let loadedCount = 0;
+
+        // Функція завантаження наступної порції фотографій
+        function loadNextPhotos() {
+
+            // Якщо всі фото вже завантажені — нічого не робимо
+            if (loadedCount >= config.total) return;
+
+            const start = loadedCount + 1;
+            const end = Math.min(
+                loadedCount + photosPerLoad,
+                config.total
+            );
+
+            for (let i = start; i <= end; i++) {
+
                 const photoNumber = i < 10 ? "0" + i : i;
-                const imgSrc = `images/${config.folder}/${photoNumber}.${config.ext}`;
+
+                const imgSrc =
+                    `images/${config.folder}/${photoNumber}.${config.ext}`;
 
                 const productHTML = `
                     <div class="product-item">
                         <div class="product-img-wrapper">
-                            <img src="${imgSrc}" 
-                                 alt="Фото ${photoNumber}" 
-                                 class="gallery-trigger" 
-                                 data-index="${i - 1}" 
+                            <img src="${imgSrc}"
+                                 alt="Фото ${photoNumber}"
+                                 class="gallery-trigger"
+                                 data-index="${i - 1}"
+                                 loading="lazy"
                                  onerror="this.onerror=null;this.src='https://placehold.co/600x450?text=Відсутнє+фото';">
                         </div>
                     </div>
                 `;
-                containerEl.insertAdjacentHTML('beforeend', productHTML);
+
+                containerEl.insertAdjacentHTML(
+                    'beforeend',
+                    productHTML
+                );
             }
-        } else {
-            containerEl.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #888; padding: 40px 0; font-weight: 500;">Галерея фотографій оновлюється...</p>`;
+
+            loadedCount = end;
         }
+
+        // Перше завантаження
+        loadNextPhotos();
+
+        // Підвантаження при прокручуванні
+        window.addEventListener("scroll", () => {
+
+            const scrollPosition =
+                window.innerHeight + window.scrollY;
+
+            const pageHeight =
+                document.documentElement.scrollHeight;
+
+            // Коли до кінця сторінки залишається 800px
+            if (
+                scrollPosition >= pageHeight - 800 &&
+                loadedCount < config.total
+            ) {
+                loadNextPhotos();
+            }
+
+        });
+
+    } else {
+
+        containerEl.innerHTML = `
+            <p style="
+                grid-column: 1/-1;
+                text-align: center;
+                color: #888;
+                padding: 40px 0;
+                font-weight: 500;
+            ">
+                Галерея фотографій оновлюється...
+            </p>
+        `;
     }
+}
 
     // ==========================================================================
     // 5. МОДАЛЬНЕ ВІКНО (ЛАЙТБОКС) ДЛЯ ФОТОГРАФІЙ
