@@ -411,44 +411,40 @@ body {
     }
 }
 
-/* ==================================================
-   ПЕРЕГЛЯД ВЕЛИКИХ ФОТО НА ПК ТА НОУТБУЦІ
-   Дозволяє прокручувати зображення по вертикалі
-   ================================================== */
 
+/* Перегляд фото на ПК та ноутбуці */
 @media (min-width: 769px) {
-
-    .lightbox {
-        overflow-y: auto !important;
-        overflow-x: hidden;
-        align-items: flex-start !important;
-        justify-content: center;
-        padding: 25px 20px;
+    #lightbox {
+        position: fixed !important;
+        inset: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
         box-sizing: border-box;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        align-items: flex-start !important;
+        justify-content: center !important;
+        padding: 25px 20px !important;
+        overscroll-behavior: contain;
     }
 
-    .lightbox-content {
-        flex: 0 0 auto;
-        width: 100%;
+    #lightbox .lightbox-content {
+        flex: 0 0 auto !important;
+        width: 100% !important;
         max-width: 1100px;
-        max-height: none !important;
         height: auto !important;
-        margin: 0 auto;
+        max-height: none !important;
         overflow: visible !important;
+        margin: 0 auto;
     }
 
-    #lightbox-img {
+    #lightbox #lightbox-img {
         display: block;
-        width: auto;
-        height: auto;
-        max-width: 100%;
+        width: auto !important;
+        height: auto !important;
+        max-width: 100% !important;
         max-height: none !important;
         object-fit: contain;
         margin: 0 auto;
     }
-
-    .telegram-product-btn {
-        margin-bottom: 15px;
-    }
 }
-
