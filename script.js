@@ -1,7 +1,8 @@
+
 document.addEventListener("DOMContentLoaded", () => {
 
     // ==========================================================================
-    // 1. ГОЛОВНА КАРУСЕЛЬ (для index.html)
+    // 1. ГОЛОВНА КАРУСЕЛЬ
     // ==========================================================================
     const slides = document.querySelectorAll(".slide");
 
@@ -68,15 +69,16 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // ==========================================================================
-    // 4. АВТОМАТИЧНЕ ЗАВАНТАЖЕННЯ ФОТОГРАФІЙ
-    // Телефон — по 3 фото, ПК — по 6 фото
+    // 4. АВТОМАТИЧНЕ ЗАВАНТАЖЕННЯ ФОТО ПОРЦІЯМИ ПО 6
+    // Наступна порція починається після завантаження поточної.
+    // Прокручувати сторінку для цього НЕ потрібно.
     // ==========================================================================
     const titleEl = document.getElementById("category-title");
     const containerEl = document.getElementById("products-container");
 
     if (titleEl && containerEl) {
         const urlParams = new URLSearchParams(window.location.search);
-        const currentCat = urlParams.get('type') || 'shafy';
+        const currentCat = urlParams.get("type") || "shafy";
 
         titleEl.textContent = categoryNames[currentCat] || "Каталог меблів";
 
@@ -85,11 +87,14 @@ document.addEventListener("DOMContentLoaded", () => {
         if (config && config.total > 0) {
             containerEl.innerHTML = "";
 
-            const photosPerLoad = window.innerWidth <= 768 ? 3 : 6;
+            const photosPerLoad = 6;
             let loadedCount = 0;
+            let isLoadingBatch = false;
 
             function loadNextPhotos() {
-                if (loadedCount >= config.total) return;
+                if (isLoadingBatch || loadedCount >= config.total) return;
+
+                isLoadingBatch = true;
 
                 const start = loadedCount + 1;
                 const end = Math.min(
@@ -97,46 +102,69 @@ document.addEventListener("DOMContentLoaded", () => {
                     config.total
                 );
 
-                for (let i = start; i <= end; i++) {
-                    const photoNumber = i < 10 ? "0" + i : i;
+                const batchImages = [];
+                const fragment = document.createDocumentFragment();
 
+                for (let i = start; i <= end; i++) {
+                    const photoNumber = i < 10 ? "0" + i : String(i);
                     const imgSrc =
                         `images/${config.folder}/${photoNumber}.${config.ext}`;
 
-                    const productHTML = `
-                        <div class="product-item">
-                            <div class="product-img-wrapper">
-                                <img
-                                    src="${imgSrc}"
-                                    alt="Фото ${photoNumber}"
-                                    class="gallery-trigger"
-                                    data-index="${i - 1}"
-                                    loading="lazy"
-                                    onerror="this.onerror=null;this.src='https://placehold.co/600x450?text=Відсутнє+фото';"
-                                >
-                            </div>
-                        </div>
-                    `;
+                    const item = document.createElement("div");
+                    item.className = "product-item";
 
-                    containerEl.insertAdjacentHTML('beforeend', productHTML);
+                    const wrapper = document.createElement("div");
+                    wrapper.className = "product-img-wrapper";
+
+                    const img = document.createElement("img");
+                    img.src = imgSrc;
+                    img.alt = `Фото ${photoNumber}`;
+                    img.className = "gallery-trigger";
+                    img.dataset.index = String(i - 1);
+
+                    // Завантажуємо фото відразу, а не лише при прокручуванні.
+                    img.loading = "eager";
+                    img.decoding = "async";
+
+                    img.onerror = function () {
+                        this.onerror = null;
+                        this.src =
+                            "https://placehold.co/600x450?text=Відсутнє+фото";
+                    };
+
+                    wrapper.appendChild(img);
+                    item.appendChild(wrapper);
+                    fragment.appendChild(item);
+                    batchImages.push(img);
                 }
 
+                containerEl.appendChild(fragment);
                 loadedCount = end;
+
+                // Чекаємо, поки кожне фото завантажиться або завершиться помилкою.
+                const waitForImage = (img) => {
+                    if (img.complete) {
+                        return Promise.resolve();
+                    }
+
+                    return new Promise(resolve => {
+                        img.addEventListener("load", resolve, { once: true });
+                        img.addEventListener("error", resolve, { once: true });
+                    });
+                };
+
+                Promise.all(batchImages.map(waitForImage)).then(() => {
+                    isLoadingBatch = false;
+
+                    if (loadedCount < config.total) {
+                        // Автоматично запускаємо наступну порцію.
+                        setTimeout(loadNextPhotos, 0);
+                    }
+                });
             }
 
+            // Запускаємо автоматичне завантаження з першої шістки.
             loadNextPhotos();
-
-            window.addEventListener("scroll", () => {
-                const scrollPosition = window.innerHeight + window.scrollY;
-                const pageHeight = document.documentElement.scrollHeight;
-
-                if (
-                    scrollPosition >= pageHeight - 800 &&
-                    loadedCount < config.total
-                ) {
-                    loadNextPhotos();
-                }
-            });
 
         } else {
             containerEl.innerHTML = `
@@ -154,7 +182,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ==========================================================================
-    // 5. ПЕРЕГЛЯД ФОТО ТА ЗАПИТ У TELEGRAM
+    // 5. ПЕРЕГЛЯД ФОТО ТА TELEGRAM
     // ==========================================================================
     const lightbox = document.getElementById("lightbox");
     const lightboxImg = document.getElementById("lightbox-img");
@@ -224,9 +252,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // ==========================================================================
-    // ВІДПРАВЛЕННЯ ФОТО МЕНЕДЖЕРУ ТА ПЕРЕХІД У TELEGRAM
-    // ==========================================================================
+    // Надсилання фото менеджеру та перехід у його Telegram
     async function sendProductToTelegram() {
         if (!lightboxImg || !telegramProductBtn) return;
 
@@ -238,23 +264,19 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         try {
-            // Адреса поточного фото
             const imageUrl = new URL(
                 lightboxImg.src,
                 window.location.href
             ).href;
 
-            // Поточна категорія
             const urlParams = new URLSearchParams(
                 window.location.search
             );
 
             const currentCat = urlParams.get("type") || "shafy";
-
             const category =
                 categoryNames[currentCat] || "Каталог меблів";
 
-            // Номер фотографії з урахуванням її номера в галереї
             const photoNumberValue = activeImages[currentIndex]
                 ? activeImages[currentIndex].index + 1
                 : currentIndex + 1;
@@ -263,7 +285,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 ? "0" + photoNumberValue
                 : String(photoNumberValue);
 
-            // Спочатку надсилаємо фото менеджеру через Worker
             const response = await fetch(TELEGRAM_WORKER_URL, {
                 method: "POST",
                 headers: {
@@ -291,7 +312,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     "Фото надіслано менеджеру! Відкриваємо Telegram...";
             }
 
-            // Текст, який клієнт зможе надіслати менеджеру
             const clientMessage =
                 `Добрий день! 👋\n\n` +
                 `Хочу дізнатися більше про цей товар.\n\n` +
@@ -299,10 +319,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 `📷 Фото №${photoNumber}\n\n` +
                 `Підкажіть, будь ласка, ціну та деталі.`;
 
-            // Відкриваємо особистий чат менеджера з підготовленим текстом
             const telegramChatUrl =
                 `https://t.me/${managerUsername}?text=${encodeURIComponent(clientMessage)}`;
 
+            // Відкриваємо чат менеджера з підготовленим повідомленням.
             window.location.href = telegramChatUrl;
 
         } catch (error) {
@@ -319,14 +339,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Закриття вікна з фото
     function closeLightbox() {
         if (lightbox) {
             lightbox.style.display = "none";
         }
     }
 
-    // Перемикання фотографій
     function changeImage(dir) {
         if (activeImages.length === 0 || !lightboxImg) return;
 
@@ -358,7 +376,6 @@ document.addEventListener("DOMContentLoaded", () => {
         );
     }
 
-    // Закриття вікна та гортання фото на телефоні
     if (lightbox) {
         lightbox.addEventListener("click", (e) => {
             if (
@@ -375,7 +392,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         lightbox.addEventListener("touchend", (e) => {
             endX = e.changedTouches[0].clientX;
-
             const threshold = 60;
 
             if (startX - endX > threshold) changeImage(1);
@@ -383,11 +399,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }, { passive: true });
     }
 
-    // Збільшення фото натисканням
     if (lightboxImg) {
         lightboxImg.addEventListener("click", (e) => {
             e.stopPropagation();
-
             scale = scale === 1 ? 2.2 : 1;
             lightboxImg.style.transform = `scale(${scale})`;
         });
