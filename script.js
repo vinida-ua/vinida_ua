@@ -44,6 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
         'obuvnyci': 'Обувниці',
         'polyci': 'Полиці',
         'tumby-tv': 'Тумби TV',
+        'prylizhkovi-tumby': 'Приліжкові тумби',
         'kuhni-tumby': 'Кухонні тумби',
         'rizne': 'Різне'
     };
@@ -64,6 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
         'obuvnyci': { folder: 'Obuvnyci', total: 6, ext: 'png' },
         'polyci': { folder: 'Polyci', total: 7, ext: 'png' },
         'tumby-tv': { folder: 'Tumby_TV', total: 9, ext: 'png' },
+        'prylizhkovi-tumby': { folder: 'Prylyzhkovi_Tumby', total: 16, ext: 'png' },
         'kuhni-tumby': { folder: 'Kuhni_Tumby', total: 0, ext: 'png' },
         'rizne': { folder: 'Rizne', total: 0, ext: 'png' }
     };
