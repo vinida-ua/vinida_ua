@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
         'vishalky': { folder: 'Vishalky', total: 3, ext: 'png' },
         'obuvnyci': { folder: 'Obuvnyci', total: 6, ext: 'png' },
         'polyci': { folder: 'Polyci', total: 7, ext: 'png' },
-        'tumby-tv': { folder: 'Tumby_TV', total: 4, ext: 'png' },
+        'tumby-tv': { folder: 'Tumby_TV', total: 9, ext: 'png' },
         'kuhni-tumby': { folder: 'Kuhni_Tumby', total: 0, ext: 'png' },
         'rizne': { folder: 'Rizne', total: 0, ext: 'png' }
     };
